@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DSA Store — Algorithm-Powered Shopping</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+<!-- ─── SIDEBAR ────────────────────────────────────────── -->
+<aside id="sidebar" class="sidebar">
+  <div class="sidebar-header">
+    <div class="logo">
+      <span class="logo-icon">🛍️</span>
+      <span class="logo-text">DSA<span class="logo-accent">Store</span></span>
+    </div>
+    <button class="sidebar-close" id="sidebarClose" aria-label="Close sidebar">✕</button>
+  </div>
+
+  <nav class="sidebar-nav">
+    <ul>
+      <li><a href="#home"     class="nav-link active" data-page="home">     <span class="nav-icon">🏠</span><span class="nav-label">Home</span></a></li>
+      <li><a href="#shop"     class="nav-link"         data-page="shop">     <span class="nav-icon">🛒</span><span class="nav-label">Shop</span></a></li>
+      <li><a href="#cart"     class="nav-link"         data-page="cart">     <span class="nav-icon">📦</span><span class="nav-label">Cart</span><span class="badge" id="cartBadge">0</span></a></li>
+      <li><a href="#orders"   class="nav-link"         data-page="orders">   <span class="nav-icon">📋</span><span class="nav-label">Orders</span></a></li>
+      <li><a href="#delivery" class="nav-link"         data-page="delivery"> <span class="nav-icon">🌐</span><span class="nav-label">Delivery Map</span></a></li>
+    </ul>
+
+    <div class="nav-section-title">⚡ Algorithm Lab</div>
+    <ul>
+      <li><a href="#hanoi"     class="nav-link sub" data-page="hanoi">     <span class="nav-icon">🗼</span><span class="nav-label">Tower of Hanoi</span></a></li>
+      <li><a href="#sorting"   class="nav-link sub" data-page="sorting">   <span class="nav-icon">🏎️</span><span class="nav-label">Sorting Race</span></a></li>
+      <li><a href="#bst"       class="nav-link sub" data-page="bst">       <span class="nav-icon">🌳</span><span class="nav-label">BST Visualizer</span></a></li>
+      <li><a href="#calc"      class="nav-link sub" data-page="calc">      <span class="nav-icon">🧮</span><span class="nav-label">Calculator</span></a></li>
+      <li><a href="#queue"     class="nav-link sub" data-page="queue">     <span class="nav-icon">📊</span><span class="nav-label">Queue Visualizer</span></a></li>
+    </ul>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="server-status" id="serverStatus">
+      <span class="status-dot offline"></span>
+      <span class="status-text">Demo Mode</span>
+    </div>
+  </div>
+</aside>
+
+<!-- ─── OVERLAY ────────────────────────────────────────── -->
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- ─── MAIN WRAPPER ───────────────────────────────────── -->
+<div class="main-wrapper" id="mainWrapper">
+
+  <!-- TOP NAVBAR -->
+  <header class="topnav">
+    <button class="hamburger" id="hamburgerBtn" aria-label="Toggle sidebar">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="topnav-title" id="topnavTitle">Home</div>
+    <div class="topnav-actions">
+      <div class="search-mini">
+        <input type="text" id="globalSearch" placeholder="Search products..." autocomplete="off" />
+        <span class="search-icon">🔍</span>
+      </div>
+      <button class="cart-btn" data-page="cart">
+        🛒 <span class="cart-count" id="cartCount">0</span>
+      </button>
+      <div class="theme-toggle" id="themeToggle" title="Toggle theme">🌙</div>
+    </div>
+  </header>
+
+  <!-- CONTENT AREA -->
+  <main class="content" id="contentArea">
+
+    <!-- ══════════════ PAGE: HOME ══════════════ -->
+    <div id="page-home" class="page active">
+      <div class="hero-banner">
+        <div class="hero-text">
+          <div class="hero-badge">⚡ Algorithm-Powered Shopping</div>
+          <h1 class="hero-title">Shop Smarter<br/>with <span class="gradient-text">Data Structures</span></h1>
+          <p class="hero-sub">Experience real-time DSA in action — stack-based cart, queue orders, graph delivery routing, and interactive algorithm games.</p>
+          <div class="hero-cta">
+            <button class="btn btn-primary" data-page="shop">🛒 Start Shopping</button>
+            <button class="btn btn-ghost" data-page="hanoi">🎮 Try Algorithm Lab</button>
+          </div>
+        </div>
+        <div class="hero-art">
+          <div class="floating-card fc1">📦</div>
+          <div class="floating-card fc2">🌳</div>
+          <div class="floating-card fc3">🗼</div>
+          <div class="floating-card fc4">🏎️</div>
+          <div class="orbit-ring"></div>
+        </div>
+      </div>
+
+      <div class="stats-row" id="homeStats">
+        <div class="stat-card"><div class="stat-icon">🛍️</div><div class="stat-val" id="statProducts">20</div><div class="stat-lbl">Products</div></div>
+        <div class="stat-card"><div class="stat-icon">📦</div><div class="stat-val" id="statCart">0</div><div class="stat-lbl">In Cart</div></div>
+        <div class="stat-card"><div class="stat-icon">📋</div><div class="stat-val" id="statOrders">0</div><div class="stat-lbl">Orders</div></div>
+        <div class="stat-card"><div class="stat-icon">🎮</div><div class="stat-val">5</div><div class="stat-lbl">DSA Games</div></div>
+      </div>
+
+      <h2 class="section-title">⭐ Featured Products</h2>
+      <div class="product-grid" id="featuredGrid">
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div>
+      </div>
+
+      <h2 class="section-title">⚡ Algorithm Lab Simulations</h2>
+      <div class="lab-preview-grid">
+        <div class="lab-card" data-page="hanoi">
+          <div class="lab-card-icon">🗼</div>
+          <h3>Tower of Hanoi</h3>
+          <p>Recursive algorithm visualized step by step with optimal move counter</p>
+          <span class="lab-tag">Recursion</span>
+        </div>
+        <div class="lab-card" data-page="sorting">
+          <div class="lab-card-icon">🏎️</div>
+          <h3>Sorting Race</h3>
+          <p>Bubble Sort vs Quick Sort — live side-by-side performance race</p>
+          <span class="lab-tag">O(n²) vs O(n log n)</span>
+        </div>
+        <div class="lab-card" data-page="bst">
+          <div class="lab-card-icon">🌳</div>
+          <h3>BST Visualizer</h3>
+          <p>Insert, delete, search, and animated in/pre/post-order traversals</p>
+          <span class="lab-tag">Hierarchical Trees</span>
+        </div>
+        <div class="lab-card" data-page="calc">
+          <div class="lab-card-icon">🧮</div>
+          <h3>Infix → Postfix Calc</h3>
+          <p>Shunting-Yard stack converter & postfix expression evaluator</p>
+          <span class="lab-tag">Stack (LIFO)</span>
+        </div>
+        <div class="lab-card" data-page="queue">
+          <div class="lab-card-icon">📊</div>
+          <h3>Queue Visualizer</h3>
+          <p>Interactive Simple, Circular Ring Buffer & Priority Queue</p>
+          <span class="lab-tag">Queue (FIFO)</span>
+        </div>
+        <div class="lab-card" data-page="delivery">
+          <div class="lab-card-icon">🌐</div>
+          <h3>Delivery Network</h3>
+          <p>BFS, DFS, Dijkstra shortest route & Warshall transitive closure</p>
+          <span class="lab-tag">Graph Algorithms</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════ PAGE: SHOP ══════════════ -->
+    <div id="page-shop" class="page">
+      <div class="shop-header">
+        <div class="shop-search-bar">
+          <input type="text" id="shopSearch" placeholder="Search products (Linear / Binary Search)..." />
+          <span class="search-icon">🔍</span>
+        </div>
+        <div class="shop-filter-bar">
+          <select id="categoryFilter">
+            <option value="">All Categories</option>
+            <option value="Electronics">Electronics</option>
+            <option value="Clothing">Clothing</option>
+            <option value="Books">Books</option>
+            <option value="Sports">Sports</option>
+            <option value="Food">Food</option>
+          </select>
+          <select id="sortFilter">
+            <option value="default">Sort by: Default</option>
+            <option value="price-asc">Price: Low to High (QuickSort)</option>
+            <option value="price-desc">Price: High to Low (QuickSort)</option>
+            <option value="rating">Highest Rated (BubbleSort)</option>
+            <option value="name">Name (A-Z)</option>
+          </select>
+          <button class="btn btn-ghost btn-sm" id="refreshProducts">🔄 Refresh</button>
+        </div>
+      </div>
+
+      <div class="category-pills" id="categoryPills">
+        <button class="cat-pill active" data-cat="">All</button>
+        <button class="cat-pill" data-cat="Electronics">📱 Electronics</button>
+        <button class="cat-pill" data-cat="Clothing">👕 Clothing</button>
+        <button class="cat-pill" data-cat="Books">📚 Books</button>
+        <button class="cat-pill" data-cat="Sports">🏃 Sports</button>
+        <button class="cat-pill" data-cat="Food">☕ Food</button>
+      </div>
+
+      <div class="product-grid" id="shopGrid">
+        <!-- Populated by JS -->
+      </div>
+
+      <div class="empty-state hidden" id="shopEmpty">
+        <div class="empty-icon">🔍</div>
+        <h3>No products found</h3>
+        <p>Try a different search term or category filter</p>
+      </div>
+    </div>
+
+    <!-- ══════════════ PAGE: CART ══════════════ -->
+    <div id="page-cart" class="page">
+      <div class="cart-layout">
+        <div class="cart-stack-panel">
+          <h2 class="panel-title">📦 Cart Stack <span class="badge-sm" id="stackSize">0</span></h2>
+          <p class="panel-sub">Items stored as a <strong>Stack (LIFO)</strong> — last added is on TOP</p>
+          <div class="stack-container" id="stackContainer">
+            <div class="stack-empty" id="stackEmpty">
+              <div class="empty-icon">🛒</div>
+              <p>Stack is empty</p>
+              <button class="btn btn-primary" data-page="shop">Browse Products</button>
+            </div>
+            <div class="stack-pointer" id="stackPointer">⬇ TOP</div>
+            <div class="stack-items" id="stackItems"></div>
+            <div class="stack-base"><div class="stack-base-label">STACK BASE</div></div>
+          </div>
+        </div>
+        <div class="cart-summary-panel">
+          <h2 class="panel-title">📋 Order Summary</h2>
+          <div class="summary-card">
+            <div class="summary-row"><span>Subtotal</span><span id="subtotal">$0.00</span></div>
+            <div class="summary-row"><span>Shipping</span><span id="shipping">$0.00</span></div>
+            <div class="summary-row"><span>Tax (8%)</span><span id="tax">$0.00</span></div>
+            <div class="summary-divider"></div>
+            <div class="summary-row total"><span>Total</span><span id="cartTotal">$0.00</span></div>
+          </div>
+          <button class="btn btn-primary btn-full" id="checkoutBtn">⚡ Checkout (Enqueue)</button>
+          <button class="btn btn-ghost btn-full" id="clearCartBtn">🗑️ Clear Cart (Pop All)</button>
+          <div class="promo-box">
+            <input type="text" id="promoInput" placeholder="Promo code (e.g. DSA10)..." />
+            <button class="btn btn-ghost btn-sm" id="applyPromo">Apply</button>
+          </div>
+          <div class="stack-ops">
+            <h3>Stack Operations Log</h3>
+            <div class="ops-log" id="opsLog">
+              <div class="log-entry">Stack initialized ✓</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════ PAGE: ORDERS ══════════════ -->
+    <div id="page-orders" class="page">
+      <div class="orders-layout">
+        <div class="orders-queue-panel">
+          <h2 class="panel-title">📋 Order Queue <span class="badge-sm" id="queueSize">0</span></h2>
+          <p class="panel-sub">Orders processed as a <strong>Queue (FIFO)</strong> — first placed, first processed</p>
+          <div class="queue-visual" id="ordersQueueVis">
+            <div class="queue-arrow-label left">ENQUEUE ➔</div>
+            <div class="queue-track" id="ordersTrack">
+              <div class="queue-empty-msg">No orders yet</div>
+            </div>
+            <div class="queue-arrow-label right">➔ DEQUEUE</div>
+          </div>
+          <div class="queue-ptr-row">
+            <span class="ptr front">FRONT ➔</span>
+            <span class="ptr rear">➔ REAR</span>
+          </div>
+        </div>
+        <div class="orders-list-panel">
+          <h2 class="panel-title">📦 My Orders</h2>
+          <div class="orders-list" id="ordersList">
+            <div class="order-empty">
+              <div class="empty-icon">📋</div>
+              <h3>No orders yet</h3>
+              <p>Place your first order from the cart!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════ PAGE: DELIVERY MAP ══════════════ -->
+    <div id="page-delivery" class="page">
+      <div class="delivery-layout">
+        <div class="delivery-controls">
+          <h2 class="panel-title">🌐 Delivery Network</h2>
+          <div class="control-group">
+            <label>Algorithm</label>
+            <div class="algo-tabs">
+              <button class="algo-tab active" data-algo="bfs">BFS</button>
+              <button class="algo-tab" data-algo="dfs">DFS</button>
+              <button class="algo-tab" data-algo="warshall">Warshall</button>
+              <button class="algo-tab" data-algo="dijkstra">Dijkstra</button>
+            </div>
+          </div>
+          <div class="control-group">
+            <label>Start City</label>
+            <select id="startCity">
+              <option value="0">Karachi</option>
+              <option value="1">Lahore</option>
+              <option value="2">Islamabad</option>
+              <option value="3">Peshawar</option>
+              <option value="4">Quetta</option>
+              <option value="5">Multan</option>
+              <option value="6">Faisalabad</option>
+              <option value="7">Hyderabad</option>
+            </select>
+          </div>
+          <div class="control-group" id="endCityGroup">
+            <label>End City</label>
+            <select id="endCity">
+              <option value="2">Islamabad</option>
+              <option value="0">Karachi</option>
+              <option value="1">Lahore</option>
+              <option value="3">Peshawar</option>
+              <option value="4">Quetta</option>
+              <option value="5">Multan</option>
+              <option value="6">Faisalabad</option>
+              <option value="7">Hyderabad</option>
+            </select>
+          </div>
+          <button class="btn btn-primary btn-full" id="runAlgoBtn">▶ Run Algorithm</button>
+          <button class="btn btn-ghost btn-full" id="resetMapBtn">🔄 Reset</button>
+          <div class="algo-info" id="algoInfo">
+            <h4>BFS — Breadth First Search</h4>
+            <p>Explores level by level. Guarantees shortest path in unweighted graphs.</p>
+            <div class="complexity"><span>Time: O(V+E)</span><span>Space: O(V)</span></div>
+          </div>
+          <div class="delivery-legend">
+            <div class="legend-item"><div class="legend-dot unvisited"></div> Unvisited</div>
+            <div class="legend-item"><div class="legend-dot visiting"></div> Visiting</div>
+            <div class="legend-item"><div class="legend-dot visited"></div> Visited</div>
+            <div class="legend-item"><div class="legend-dot path"></div> Shortest Path</div>
+          </div>
+          <div class="warshall-matrix hidden" id="warshallMatrix">
+            <h4>Reachability Matrix</h4>
+            <div id="matrixGrid"></div>
+          </div>
+        </div>
+        <div class="delivery-canvas-wrap">
+          <canvas id="deliveryCanvas" width="800" height="500"></canvas>
+          <div class="traversal-log" id="traversalLog">
+            <h4>Traversal Log</h4>
+            <div id="traversalSteps"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════ PAGE: TOWER OF HANOI ══════════════ -->
+    <div id="page-hanoi" class="page">
+      <div class="game-layout">
+        <div class="game-controls">
+          <h2 class="panel-title">🗼 Tower of Hanoi</h2>
+          <div class="control-group">
+            <label>Disks: <strong id="diskCountLabel">3</strong></label>
+            <input type="range" id="diskCount" min="1" max="8" value="3" />
+          </div>
+          <div class="control-group">
+            <label>Speed: <strong id="speedLabel">Medium</strong></label>
+            <input type="range" id="hanoiSpeed" min="1" max="5" value="3" />
+          </div>
+          <button class="btn btn-primary btn-full" id="hanoiAutoSolve">▶ Auto Solve</button>
+          <button class="btn btn-ghost btn-full" id="hanoiReset">🔄 Reset</button>
+          <div class="game-stats">
+            <div class="gstat"><div class="gstat-val" id="moveCount">0</div><div class="gstat-lbl">Moves</div></div>
+            <div class="gstat"><div class="gstat-val" id="optMoves">7</div><div class="gstat-lbl">Optimal</div></div>
+            <div class="gstat"><div class="gstat-val" id="recurCalls">7</div><div class="gstat-lbl">Recursive Calls</div></div>
+          </div>
+          <div class="formula-box">
+            <div class="formula">Minimum moves = 2ⁿ - 1</div>
+            <div class="formula-val" id="formulaVal">= 2³ - 1 = 7</div>
+          </div>
+          <div class="move-history">
+            <h4>Move History</h4>
+            <div class="history-log" id="hanoiHistory"></div>
+          </div>
+        </div>
+        <div class="game-canvas-wrap">
+          <canvas id="hanoiCanvas" width="700" height="350"></canvas>
+          <div class="hanoi-status" id="hanoiStatus">Set disks and press Auto Solve!</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════ PAGE: SORTING RACE ══════════════ -->
+    <div id="page-sorting" class="page">
+      <div class="game-layout">
+        <div class="game-controls">
+          <h2 class="panel-title">🏎️ Sorting Race</h2>
+          <div class="control-group">
+            <label>Array Size: <strong id="arraySizeLabel">20</strong></label>
+            <input type="range" id="arraySize" min="5" max="50" value="20" />
+          </div>
+          <div class="control-group">
+            <label>Speed: <strong id="sortSpeedLabel">Medium</strong></label>
+            <input type="range" id="sortSpeed" min="1" max="10" value="5" />
+          </div>
+          <button class="btn btn-primary btn-full" id="startRaceBtn">🏁 Start Race</button>
+          <button class="btn btn-ghost btn-full" id="newArrayBtn">🎲 New Array</button>
+          <div class="racer-stats">
+            <div class="racer bubble">
+              <div class="racer-name">🐢 Bubble Sort</div>
+              <div class="racer-complexity">O(n²)</div>
+              <div class="racer-stat-row"><span>Comparisons:</span><span id="bubbleCmp">0</span></div>
+              <div class="racer-stat-row"><span>Swaps:</span><span id="bubbleSwap">0</span></div>
+              <div class="racer-progress"><div class="progress-bar bubble-bar" id="bubbleBar"></div></div>
+            </div>
+            <div class="racer quick">
+              <div class="racer-name">⚡ Quick Sort</div>
+              <div class="racer-complexity">O(n log n)</div>
+              <div class="racer-stat-row"><span>Comparisons:</span><span id="quickCmp">0</span></div>
+              <div class="racer-stat-row"><span>Swaps:</span><span id="quickSwap">0</span></div>
+              <div class="racer-progress"><div class="progress-bar quick-bar" id="quickBar"></div></div>
+            </div>
+          </div>
+          <div class="sort-winner hidden" id="sortWinner"></div>
+        </div>
+        <div class="game-canvas-wrap">
+          <div class="sorting-race-display">
+            <div class="sort-half">
+              <h4>Bubble Sort O(n²)</h4>
+              <div class="bars-container" id="bubbleBars"></div>
+            </div>
+            <div class="sort-half">
+              <h4>Quick Sort O(n log n)</h4>
+              <div class="bars-container" id="quickBars"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════ PAGE: BST VISUALIZER ══════════════ -->
+    <div id="page-bst" class="page">
+      <div class="game-layout">
+        <div class="game-controls">
+          <h2 class="panel-title">🌳 BST Visualizer</h2>
+          <div class="control-group">
+            <label>Insert Value</label>
+            <div class="input-row">
+              <input type="number" id="bstInsertVal" placeholder="e.g. 42" />
+              <button class="btn btn-primary btn-sm" id="bstInsertBtn">Insert</button>
+            </div>
+          </div>
+          <div class="control-group">
+            <label>Delete Value</label>
+            <div class="input-row">
+              <input type="number" id="bstDeleteVal" placeholder="e.g. 42" />
+              <button class="btn btn-danger btn-sm" id="bstDeleteBtn">Delete</button>
+            </div>
+          </div>
+          <div class="control-group">
+            <label>Search Value</label>
+            <div class="input-row">
+              <input type="number" id="bstSearchVal" placeholder="e.g. 42" />
+              <button class="btn btn-ghost btn-sm" id="bstSearchBtn">Search</button>
+            </div>
+          </div>
+          <div class="control-group">
+            <label>Traversal</label>
+            <div class="trav-tabs">
+              <button class="trav-tab active" data-trav="inorder">In-order</button>
+              <button class="trav-tab" data-trav="preorder">Pre-order</button>
+              <button class="trav-tab" data-trav="postorder">Post-order</button>
+            </div>
+            <button class="btn btn-ghost btn-full mt-sm" id="bstTraverseBtn">▶ Traverse</button>
+          </div>
+          <div class="traversal-result" id="bstTraversalResult"></div>
+          <div class="preset-row">
+            <span>Presets:</span>
+            <button class="pill-sm" id="bstPreset1">Random</button>
+            <button class="pill-sm" id="bstPreset2">Balanced</button>
+            <button class="pill-sm danger" id="bstClearBtn">Clear</button>
+          </div>
+          <div class="bst-node-info hidden" id="bstNodeInfo">
+            <h4>Node Info</h4>
+            <div id="bstNodeDetails"></div>
+          </div>
+        </div>
+        <div class="game-canvas-wrap">
+          <canvas id="bstCanvas" width="700" height="450"></canvas>
+          <div class="bst-status" id="bstStatus">Insert values to build your tree!</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════ PAGE: CALCULATOR ══════════════ -->
+    <div id="page-calc" class="page">
+      <div class="calc-layout">
+        <div class="calc-input-panel">
+          <h2 class="panel-title">🧮 Infix → Postfix Calculator</h2>
+          <div class="calc-input-area">
+            <div class="control-group">
+              <label>Infix Expression</label>
+              <input type="text" id="infixInput" placeholder="e.g. (3+5)*2-4/2" />
+            </div>
+            <div class="example-exprs">
+              <span>Examples:</span>
+              <button class="pill-sm" data-expr="(3+5)*2">(3+5)*2</button>
+              <button class="pill-sm" data-expr="a+b*c-(d/e+f)*g">Complex</button>
+              <button class="pill-sm" data-expr="3^2+4*5-1">With ^</button>
+              <button class="pill-sm" data-expr="((2+3)*4)/(5-1)">Nested</button>
+            </div>
+            <div class="calc-btn-row">
+              <button class="btn btn-primary" id="convertBtn">⚡ Convert</button>
+              <button class="btn btn-ghost" id="resetCalcBtn">🔄 Reset</button>
+            </div>
+          </div>
+          <div class="calc-result-area">
+            <div class="result-box">
+              <label>Postfix Result</label>
+              <div class="result-display" id="postfixResult">—</div>
+            </div>
+            <div class="eval-row hidden" id="evalRow">
+              <input type="text" id="evalHelperInput" placeholder="Assign variables (e.g. a=2, b=3)" />
+              <button class="btn btn-primary btn-sm" id="evalBtn">= Evaluate</button>
+              <div class="eval-result" id="evalResult"></div>
+            </div>
+          </div>
+          <div class="operator-table">
+            <h4>Operator Precedence</h4>
+            <table>
+              <tr><th>Operator</th><th>Precedence</th><th>Associativity</th></tr>
+              <tr><td>^</td><td>3</td><td>Right</td></tr>
+              <tr><td>* /</td><td>2</td><td>Left</td></tr>
+              <tr><td>+ -</td><td>1</td><td>Left</td></tr>
+            </table>
+          </div>
+        </div>
+        <div class="calc-stack-panel">
+          <div class="stack-viz-area">
+            <h3>Operator Stack</h3>
+            <div class="calc-stack-vis" id="calcStackVis">
+              <div class="stack-empty-msg">Stack empty</div>
+            </div>
+          </div>
+          <div class="output-queue-area">
+            <h3>Output Queue</h3>
+            <div class="output-queue" id="outputQueue"></div>
+          </div>
+          <div class="step-log-area">
+            <h3>Step Log</h3>
+            <div class="step-log" id="stepLog"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════ PAGE: QUEUE VISUALIZER ══════════════ -->
+    <div id="page-queue" class="page">
+      <div class="queue-viz-layout">
+        <div class="queue-type-tabs">
+          <button class="queue-tab active" data-qtype="simple">📋 Simple Queue</button>
+          <button class="queue-tab" data-qtype="circular">🔄 Circular Queue</button>
+          <button class="queue-tab" data-qtype="priority">👑 Priority Queue</button>
+        </div>
+        <div class="queue-viz-main" id="queueVizMain">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ─── PRODUCT MODAL ──────────────────────────────────── -->
+<div class="modal-overlay" id="productModal">
+  <div class="modal">
+    <button class="modal-close" id="modalClose">✕</button>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- ─── TOAST CONTAINER ────────────────────────────────── -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- ─── SCRIPTS ────────────────────────────────────────── -->
+<script src="js/store.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/visualizer.js"></script>
+<script src="js/games.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
